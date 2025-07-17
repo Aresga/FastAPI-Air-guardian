@@ -1,12 +1,14 @@
 import httpx
 from fastapi import FastAPI, HTTPException
-import os
-from dotenv import load_dotenv
+# import os
+# from dotenv import load_dotenv
+from settings import Settings
 
 
+settings = Settings()
 app = FastAPI()
-load_dotenv()
-DRONES_API_URL = os.getenv("DRONES_API_URL")
+# load_dotenv()
+# DRONES_API_URL = os.getenv("DRONES_API_URL")
 
 @app.get("/health")
 def health():
@@ -17,7 +19,7 @@ def health():
 async def get_drones():
     try:
         async with httpx.AsyncClient() as client:
-            response = await client.get(DRONES_API_URL)
+            response = await client.get(settings.DRONES_API_URL)
             response.raise_for_status()
             return response.json()
             
