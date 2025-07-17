@@ -1,24 +1,11 @@
-# from celery_app import celery
-
-# @celery.task
-# def check_for_violations():
-#     print("Checking for drone violations...")
-#     # Here you would implement the logic to check for violations
-#     # quesring an API, "in the main we already implemented a fastapi endpoint"
-#     # should implement a class that handle the logic for checking violations
-
-
-#     return "Violation check complete."
-
-
 import httpx
 import math
 from datetime import datetime
 
-from .celery_app import celery
-from .database import SessionLocal
-from .models import Violation
-from .settings import settings
+from celery_app import celery
+from database import SessionLocal
+from models import Violation
+from settings import settings
 
 # [cite_start]The No-Fly Zone is a circle with a radius of 1000 units[cite: 69].
 NFZ_RADIUS = 1000.0
