@@ -12,7 +12,9 @@ app = FastAPI()
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    """ return a 200 HTTP Status"""
+
+    return {"success": "ok"}
 
 
 @app.get("/drones")
@@ -21,9 +23,20 @@ async def get_drones():
         async with httpx.AsyncClient() as client:
             response = await client.get(settings.DRONES_API_URL)
             response.raise_for_status()
-            return response.json()
-            
+            return response.json()            
     except httpx.HTTPStatusError as e:
         raise HTTPException(status_code=e.response.status_code, detail=f"HTTP error: {str(e)}")
     except httpx.RequestError as e:
         raise HTTPException(status_code=503, detail=f"Error connecting to the drones API: {str(e)}")
+
+@app.get("/nfz")
+async def get_nfzs():
+    """ this sholt """
+    return {"NFZ": "Marc's Restricted Drone"
+            "Restricted Area" "No Fly Zone",
+            "Reason": "Safety and Security",
+            "Coordinates": [
+                {"lat": 37.7749, "lon": -122.4194},
+                {"lat": 37.7849, "lon": -122.4094},
+                {"lat": 37.7949, "lon": -122.4294}
+            ]}

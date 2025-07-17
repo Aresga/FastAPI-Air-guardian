@@ -6,5 +6,6 @@ class Settings(BaseSettings):
     DRONES_API_URL: str
     NFZ_SECRET_KEY: str
     DATABASE_URL: str
+    CELERY_BROKER_URL: str
 
 settings = Settings()
