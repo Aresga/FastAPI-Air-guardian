@@ -32,11 +32,4 @@ async def get_drones():
 @app.get("/nfz")
 async def get_nfzs():
     """ this sholt """
-    return {"NFZ": "Marc's Restricted Drone"
-            "Restricted Area" "No Fly Zone",
-            "Reason": "Safety and Security",
-            "Coordinates": [
-                {"lat": 37.7749, "lon": -122.4194},
-                {"lat": 37.7849, "lon": -122.4094},
-                {"lat": 37.7949, "lon": -122.4294}
-            ]}
+    return {"NFZ": "Marc's Restricted Drone"}
