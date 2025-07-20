@@ -29,7 +29,7 @@ setup: install
 		postgres:15 2>/dev/null || docker start air-guardian-postgres
 	@echo "⏳ Waiting for PostgreSQL to be ready..."
 	@sleep 5
-	@poetry run python3 create_tables.py || \
+	@poetry run python3 src.create_tables.py || \
 		(echo "❌ Database setup failed, recreating container..." && make db-reset)
 	@echo "🔧 Ensuring database user exists..."
 	@docker exec air-guardian-postgres psql -U agaga -d agaga -c "SELECT 1;" 2>/dev/null || \
