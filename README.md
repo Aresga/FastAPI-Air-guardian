@@ -15,16 +15,31 @@ When a violation is detected, the system:
 
 ---
 
-## How to Install Dependencies
+## How to Install Dependencies and set up environment variables
 
 All dependencies and environment setup can be handled by the provided Makefile.
 
 1. **Clone the repository.**
+
+	```sh
+	git clone git@github.com:Aresga/FastAPI-Air-guardian.git && cd FastAPI-Air-guardian
+	```
+
 2. **Install dependencies:**  
-   This command uses Poetry to create a virtual environment and install all necessary Python packages.
+   This command uses [Poetry ](#-install-Poetry) to create a virtual environment and install all necessary Python packages.
    ```sh
    make install
    ```
+3. **Copy the example.env and populate the variables:**
+	```sh
+	cp example.env .env
+	```
+	Open the new ```.env```file and fill in the required values for each variable:
+	* ```NFZ_SECRET_KEY```: Secret key for accessing protected endpoints.
+	* ```DATABASE_URL```: Connection string for your PostgreSQL database.
+	* ```CELERY_BROKER_URL```: Redis URL for Celery message broker.
+	* ```BASE_URL```: Base URL for the external drone data API.
+	
 
 ---
 
@@ -95,17 +110,34 @@ The AirGuardian backend will exposes the following API endpoints:
 If you prefer to run the services manually without using make, follow these steps.
 
 
-### install Poetry and Create a Virtual Environment Using Poetry
+### install Poetry
 
-Before running the application, create a virtual environment and install dependencies with Poetry:
+Before running the application, make sure you have poetry installed:
+
+```sh
+curl -sSL https://install.python-poetry.org | python3 -
+```
+
+```sh
+poetry --version
+```
+
+
+### create a virtual environment
+
+
+```sh
+poetry env use python3
+```
+
+### Install dependecies
+
+
+This command will set up a new virtual environment (if one does not already exist) and install all required Python packages as specified in `pyproject.toml`.
 
 ```sh
 poetry install
 ```
-
-This command will set up a new virtual environment (if one does not already exist) and install all required Python packages as specified in `pyproject.toml`.
-
-
 
 ### Start Services
 
@@ -115,11 +147,11 @@ Ensure Docker is running, then start the required database and message broker co
 # Start Redis
 docker run -d --name air-guardian-redis -p 6379:6379 redis:7-alpine
 
-# Start PostgreSQL (replace with your credentials if different)
+# Start PostgreSQL (replace with your credentials)
 docker run -d --name air-guardian-postgres \
     -e POSTGRES_USER=user \
     -e POSTGRES_PASSWORD='mypassword' \
-    -e POSTGRES_DB=databasename \
+    -e POSTGRES_DB=user_db \
     -p 5432:5432 \
     postgres:15
 ```
@@ -153,8 +185,8 @@ Run the following commands in three separate terminal windows (one command per t
 ## Architectural & Usage Notes
 
 - **Configuration:**  
-  The application is configured using environment variables defined in a `.env` file. An `.env.example` file is provided in the repository to show the required variables. 
-  
+  The application is configured using environment variables defined in a `.env` file. An `.env.example` file is provided in the repository to show the required variables.
+
 - **Architecture:**
   - **FastAPI:** Serves the public API endpoints.
   - **Celery:** Used for running the periodic background task that fetches drone data every 10 seconds.
@@ -162,5 +194,5 @@ Run the following commands in three separate terminal windows (one command per t
   - **Redis:** Acts as the message broker between the web server and the Celery workers.
   - **/nfz Endpoint:** This endpoint is protected and requires a valid `X-Secret` header to be included in the request to retrieve violation data. If the header is missing or incorrect, the API will return a 401 Unauthorized error.
 
----
-```
+--- 
+
