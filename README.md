@@ -196,3 +196,28 @@ Run the following commands in three separate terminal windows (one command per t
 
 --- 
 
+## Frontend Dashboard
+
+A simple frontend dashboard was developed to test and visualize the backend API endpoints. This dashboard provides a real-time simulation of drone activity within the monitored airspace and displays data retrieved from the backend database.
+
+**Repository:**
+
+You can find the frontend dashboard source code in the same GitHub organization as this backend. Visit [AirGuardian Dashboard](https://github.com/Aresga/aresga.github.io) to view, clone, or contribute to the frontend project.
+
+**Features:**
+- **Live Drone Simulation:** Visualizes the positions and movements of drones, including those entering the No-Fly Zone.
+- **Violation Display:** Shows a list of recent violations, including drone and owner details, as reported by the backend.
+- **API Integration:** Fetches live drone data and violation records directly from the backend endpoints.
+
+This dashboard is useful for quickly verifying backend functionality and provides an intuitive interface for monitoring drone activity and system responses.
+
+---
+
+
+## Useful Resources
+Here are links to the official documentation for the main technologies used in this project:
+* [**FastAPI**](https://fastapi.tiangolo.com/how-to/general/): The web framework used to build the API.
+* [**Celery**](https://docs.celeryq.dev/en/stable/): The distributed task queue used for background processing.
+* [**SQLAlchemy**](https://www.sqlalchemy.org/): The SQL toolkit and Object-Relational Mapper (ORM) for database interaction.
+* [**Pydantic**](https://docs.pydantic.dev/latest/): The library used for data validation and settings management.
+* [**Docker**](https://docs.docker.com/): The containerization platform used to run PostgreSQL and Redis.
