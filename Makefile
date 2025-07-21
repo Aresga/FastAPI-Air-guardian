@@ -18,7 +18,7 @@ install:
 	@poetry install
 
 
-setup: install
+setup:
 	@echo "🚀 Setting up development environment..."
 	@docker run -d --name air-guardian-redis -p 6379:6379 redis:7-alpine 2>/dev/null || docker start air-guardian-redis
 	@docker run -d --name air-guardian-postgres \
@@ -29,7 +29,7 @@ setup: install
 		postgres:15 2>/dev/null || docker start air-guardian-postgres
 	@echo "⏳ Waiting for PostgreSQL to be ready..."
 	@sleep 5
-	@poetry run python3 src.create_tables.py || \
+	@poetry run python -m src.create_tables || \
 		(echo "❌ Database setup failed, recreating container..." && make db-reset)
 	@echo "🔧 Ensuring database user exists..."
 	@docker exec air-guardian-postgres psql -U agaga -d agaga -c "SELECT 1;" 2>/dev/null || \
@@ -37,7 +37,7 @@ setup: install
 	@echo "✅ Development environment ready!"
 	
 
-start: setup
+start:
 	@echo "🚀 Starting Air Guardian services..."
 	@mkdir -p logs .pids
 	@echo "🏗️ Creating database tables..."
@@ -100,7 +100,7 @@ test:
 
 db-create:
 	@echo "🏗️ Creating database tables..."
-	@poetry run python create_tables.py
+	@poetry run python -m src.create_tables
 	@echo "✅ Tables created!"
 
 # Database management
